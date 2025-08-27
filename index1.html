@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MercadoBot 24h - Automatize e Venda Mais no seu Supermercado/Mercearia!</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Ícones -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #28a745; /* Verde Mercado */
+            --secondary-color: #00529B; /* Azul Tecnologia */
+            --cta-color: #ffc107; /* Amarelo Urgência */
+            --urgency-color: #d90429; /* VERMELHO URGÊNCIA */
+            --cta-text-color: #212529;
+            --dark-color: #343a40;
+            --light-color: #f8f9fa;
+            --white-color: #ffffff;
+            --text-color: #495057;
+        }
+
+        /* Mantendo o CSS geral igual, mas ajustando as cores primárias */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: var(--text-color); background-color: var(--light-color); }
+        .container { max-width: 960px; margin: auto; overflow: hidden; padding: 0 20px; }
+
+        header { background: var(--white-color); padding: 2rem 0; text-align: center; border-bottom: 5px solid var(--primary-color); }
+        header .logo { width: 450px; height: auto; } /* Ajuste o tamanho da sua nova logo se necessário */
+        header h1 { font-size: 2.8rem; color: var(--dark-color); margin-top: 1rem; font-weight: 900; line-height: 1.2; }
+        header h1 span { color: var(--primary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        header p { font-size: 1.2rem; margin-top: 0.5rem; }
+
+        .urgency-bar { background-color: var(--urgency-color); color: var(--white-color); text-align: center; padding: 0.8rem; font-weight: 600; }
+        .timer { font-size: 1.8rem; letter-spacing: 2px; color: var(--cta-color); margin-left: 10px; }
+
+        .video-section { padding: 3rem 0; background: var(--white-color); text-align: center; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 800px; background: #000; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin: 1rem auto; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        
+        .cta-button { display: inline-block; background-color: var(--cta-color); color: var(--cta-text-color); padding: 18px 40px; font-size: 1.4rem; font-weight: 700; text-decoration: none; border-radius: 8px; margin-top: 1.5rem; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s ease; animation: pulse 2s infinite; }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); animation: none; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        .sub-cta { font-size: 0.9rem; margin-top: 10px; opacity: 0.8; }
+        .section { padding: 4rem 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; font-weight: 700; color: var(--dark-color); }
+        
+        .pain-points { background: var(--white-color); }
+        .pain-points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .pain-point { background: var(--light-color); padding: 2rem; border-left: 5px solid #dc3545; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease-out; }
+        .pain-point:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .pain-point i { font-size: 2.5rem; color: #dc3545; margin-bottom: 1rem; }
+        .pain-point p { font-weight: 600; font-size: 1.1rem; }
+        
+        .solution { text-align: center; }
+        .solution p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 2rem auto; }
+        
+        .features { background: var(--white-color); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .feature-card { text-align: center; padding: 2rem; transition: all 0.3s ease-out; }
+        .feature-card:hover { transform: scale(1.05); }
+        .feature-card .icon-container { width: 100px; height: 100px; margin: 0 auto 1.5rem auto; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white-color); font-size: 3rem; box-shadow: 0 5px 10px rgba(0, 82, 155, 0.3); position: relative; overflow: hidden; }
+        .feature-card .icon-container::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(25deg); transition: transform 1s ease; }
+        .feature-card:hover .icon-container::after { transform: translateX(100%) rotate(25deg); }
+        .feature-card h3 { font-size: 1.4rem; color: var(--dark-color); margin-bottom: 0.5rem; }
+        
+        .testimonials { background-color: var(--primary-color); color: var(--white-color); }
+        .testimonials .section-title { color: var(--white-color); }
+        .testimonial { background: rgba(255,255,255, 0.1); padding: 2rem; border-radius: 10px; margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; transition: all 0.3s ease-out; }
+        .testimonial:hover { background: rgba(255,255,255, 0.2); transform: scale(1.03); }
+        .testimonial img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--cta-color); margin-bottom: 1rem; object-fit: cover; object-position: center; }
+        .testimonial-text { font-style: italic; margin-bottom: 1rem; font-size: 1.1rem; }
+        .testimonial-author { font-weight: 700; }
+        .testimonial-author span { display: block; font-weight: 400; font-size: 0.9rem; opacity: 0.8; }
+        
+        /* ESTILOS DA OFERTA ATUALIZADOS */
+        .offer { background: var(--white-color); }
+        .offer-box { 
+            border: 3px dashed var(--secondary-color); 
+            border-radius: 15px; 
+            padding: 3rem; 
+            background: var(--light-color); 
+            text-align: center; /* Garante que tudo dentro fique centralizado */
+        }
+        .offer-mockup img {
+            width: 100%;
+            max-width: 400px; /* Ajuste o tamanho máximo conforme preferir */
+            display: block;
+            margin: 0 auto 2.5rem auto; /* Centraliza e adiciona espaço abaixo */
+            border-radius: 10px;
+        }
+        .offer-box h2 { font-size: 2.2rem; font-weight: 700; color: var(--dark-color); }
+        .offer-box h3 { font-size: 1.4rem; margin-top: 2rem; }
+        .offer-box p { font-size: 1.1rem; margin-top: 1rem; }
+        
+        .bonus-list { list-style: none; margin: 2rem auto; text-align: left; max-width: 600px; }
+        .bonus-list li { background: var(--white-color); padding: 1.2rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; border-left: 5px solid var(--secondary-color); }
+        .bonus-list li i { color: var(--secondary-color); margin-right: 15px; font-size: 1.8rem; }
+        .bonus-list .bonus-text { font-size: 1.1rem; }
+
+        .price-box { margin-top: 2rem; }
+        .old-price { text-decoration: line-through; font-size: 1.5rem; color: #6c757d; }
+        .new-price { font-size: 3.5rem; font-weight: 900; color: var(--primary-color); margin: 0.5rem 0; }
+        .new-price span { font-size: 1.5rem; font-weight: 400; }
+        
+        .guarantee { display: flex; align-items: center; gap: 2rem; margin-top: 3rem; background: var(--white-color); padding: 2rem; border-radius: 10px; }
+        .guarantee img { max-width: 150px; }
+        .guarantee-text h3 { color: var(--dark-color); font-size: 1.5rem; }
+        
+        .reclame-aqui-proof { display: flex; align-items: center; gap: 2rem; margin-top: 2rem; background-color: var(--light-color); padding: 1.5rem 2rem; border-radius: 10px; border: 1px solid #e0e0e0; }
+        .reclame-aqui-proof img { width: 120px; height: auto; flex-shrink: 0; }
+        .reclame-aqui-proof p { font-size: 1.1rem; font-weight: 600; line-height: 1.5; }
+        .reclame-aqui-proof p span { color: var(--secondary-color); font-weight: 700; }
+
+        .faq { max-width: 800px; margin: auto; }
+        .faq-item { background: var(--white-color); margin-bottom: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .faq-question { padding: 1rem 1.5rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { 
+            padding: 0 1.5rem; 
+            overflow: hidden; 
+            max-height: 0; 
+            transition: all 0.4s ease-out; 
+        }
+        .faq-item.active .faq-answer { max-height: 200px; padding: 1.5rem; }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--primary-color); transition: transform 0.3s ease; }
+        .faq-item.active .faq-question::after { content: '-'; transform: rotate(180deg); }
+
+        #creator-section { background: var(--white-color); }
+        .creator-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: center; }
+        .creator-text h3 { font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .creator-text .subtitle { font-weight: 600; font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--dark-color); }
+        .creator-text p { margin-bottom: 1rem; }
+        .creator-images { text-align: center; }
+        
+        .final-cta-section { background: var(--dark-color); color: var(--white-color); text-align: center; padding: 4rem 0; }
+        .final-cta-section h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        
+        footer { text-align: center; padding: 2rem 0; background: #212529; color: #ccc; font-size: 0.9rem; }
+
+        #back-to-top-btn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--primary-color); color: white; cursor: pointer; padding: 15px; border-radius: 50%; width: 55px; height: 55px; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s ease; animation: pulse-btn 2.5s infinite; }
+        #back-to-top-btn:hover { background-color: var(--dark-color); transform: translateY(-5px); animation: none; }
+        @keyframes pulse-btn { 0% { box-shadow: 0 0 0 0 rgba(0, 82, 155, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 82, 155, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 82, 155, 0); } }
+
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        
+        .image-reveal-container { overflow: hidden; border-radius: 10px; }
+        .image-reveal-container img { width: 100%; display: block; transform: scale(1.2); transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        .image-reveal-container.visible img { transform: scale(1); }
+
+        .stats-section { background: var(--dark-color); color: var(--white-color); padding: 3rem 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center; }
+        .stat-item h3 { font-size: 3rem; font-weight: 700; color: var(--cta-color); }
+        .stat-item p { font-size: 1.1rem; }
+
+        @media(max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+            .cta-button { font-size: 1.2rem; padding: 15px 30px; }
+            .guarantee, .reclame-aqui-proof { flex-direction: column; text-align: center; }
+            .creator-grid { grid-template-columns: 1fr; text-align: center; }
+            .creator-images { order: -1; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+        @media(max-width: 480px) {
+            .timer { display: block; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="container">
+            <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+            <img src="C:\hotmart\superbot24h\logo.png" alt="Logo do MercadoBot 24h" class="logo" loading="lazy"> 
+            <h1>Seu supermercado/mercearia está <span>perdendo vendas</span> por falta de atendimento no WhatsApp?</h1>
+            <p>Descubra como transformar seu WhatsApp e Telegram em uma máquina de vendas que trabalha 24h por dia, 7 dias por semana, de forma 100% automática, para o seu supermercado ou mercearia.</p>
+        </div>
+    </header>
+
+    <div class="urgency-bar">
+        🔥 OFERTA DE LANÇAMENTO COM 90% DE DESCONTO TERMINA EM: 
+        <span id="timer" class="timer">02:59:59</span>
+    </div>
+
+    <section class="video-section">
+        <div class="container">
+            <h2 class="animate-on-scroll">Assista ao vídeo e veja como é simples revolucionar seu supermercado/mercearia:</h2>
+            <div class="video-container animate-on-scroll">
+                <!-- VÍDEO DO YOUTUBE ATUALIZADO AQUI -->
+                <iframe 
+                    src="https://www.youtube.com/embed/8gmhIbHv4Wk?si=rIMyfU2C4hrFVxE9" 
+                    title="Vídeo de Demonstração do MercadoBot" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <!-- Mantenha o link da Hotmart atualizado para o seu produto -->
+            <a href="https://pay.hotmart.com/SEU_CODIGO_HOTMART_AQUI" class="cta-button animate-on-scroll">QUERO AUTOMATIZAR MEU MERCADO AGORA!</a>
+            <p class="sub-cta animate-on-scroll">Compra segura | Acesso vitalício | Suporte incluso</p>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <h3 class="counter" data-target="24">0</h3>
+                    <p>Horas por Dia de Atendimento</p>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <h3 class="counter" data-target="35" data-suffix="%">+0%</h3> 
+                    <p>Aumento Médio em Vendas</p>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <h3 class="counter" data-target="100" data-suffix="%">0%</h3>
+                    <p>Clientes Atendidos Imediatamente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pain-points section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Você se identifica com algum desses problemas?</h2>
+            <div class="pain-points-grid">
+                <div class="pain-point animate-on-scroll"><i class="fas fa-clock"></i><p>Perde horas respondendo as mesmas perguntas (preço, disponibilidade de produtos, entrega) no WhatsApp?</p></div>
+                <div class="pain-point animate-on-scroll"><i class="fas fa-phone-slash"></i><p>Deixa de vender porque não consegue atender a todos os clientes a tempo, principalmente fora do horário de pico ou de fechamento?</p></div>
+                <div class="pain-point animate-on-scroll"><i class="fas fa-cart-arrow-down"></i><p>Clientes abandonam a compra pela demora no atendimento ou por um processo de pedido complicado para seu delivery?</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Apresentando o Assistente Virtual MercadoBot 24h</h2>
+            <p class="animate-on-scroll">A solução definitiva que transforma seu WhatsApp em um funcionário que não dorme, não tira férias e vende para você sem parar, com a inteligência da OpenAI, para o seu supermercado ou mercearia!</p>
+            <div class="image-reveal-container animate-on-scroll">
+                <!-- Substitua esta imagem por uma captura de tela real do painel de controle ou do bot em ação no WhatsApp para mercado. -->
+                <img src="https://via.placeholder.com/900x500/28a745/FFFFFF?text=Dashboard+de+Controle+MercadoBot+no+Telegram" alt="Painel de Controle do MercadoBot" class="solution-image" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <section class="features section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">O que o MercadoBot 24h faz pelo seu supermercado/mercearia:</h2>
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-robot"></i></div><h3>Vendas 100% Automatizadas</h3><p>Seu cliente escolhe produtos, adiciona ao carrinho, informa endereço e forma de pagamento, tudo sem intervenção humana, diretamente pelo WhatsApp.</p></div>
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-brain"></i></div><h3>Atendimento com Inteligência Artificial</h3><p>Integrado à OpenAI (ChatGPT), ele responde dúvidas complexas sobre produtos (orgânicos, sem glúten, promoções), horários de entrega e até sugere itens de compra, de forma natural e inteligente.</p></div>
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-mobile-alt"></i></div><h3>Controle Total no Telegram</h3><p>Gerencie pedidos, cadastre produtos com fotos, atualize preços, veja estatísticas e até pause o bot, tudo de um painel de controle simples no seu Telegram.</p></div>
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-undo-alt"></i></div><h3>Recuperação de Vendas</h3><p>Sistema de follow-up automático que reengaja clientes que demonstraram interesse mas não finalizaram a compra, convertendo vendas perdidas.</p></div>
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-heart"></i></div><h3>Fidelização de Clientes</h3><p>Envie mensagens de pós-venda para saber se deu tudo certo com a entrega dos produtos, ou ofereça cupons de desconto para a próxima compra, criando um relacionamento e incentivando novas compras.</p></div>
+                <div class="feature-card animate-on-scroll"><div class="icon-container"><i class="fas fa-bullhorn"></i></div><h3>Marketing Proativo</h3><p>Configure envios automáticos de ofertas e novidades para grupos de WhatsApp, mantendo sua marca ativa e gerando vendas recorrentes para sua comunidade de clientes.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Veja o que donos de supermercados e mercearias estão dizendo:</h2>
+            <div class="testimonial animate-on-scroll">
+                <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                <img src="C:\hotmart\superbot24h\carlos.jpg" alt="Foto de Carlos Pereira" loading="lazy">
+                <p class="testimonial-text">"O MercadoBot mudou o jogo para nós. As vendas por delivery aumentaram 35% no primeiro mês porque não perdemos mais nenhum pedido por falta de agilidade. O painel no Telegram é genial, controlo tudo pelo celular, da reposição ao caixa."</p>
+                <p class="testimonial-author">Carlos Pereira <span>Dono, Supermercado Economia Fácil</span></p>
+            </div>
+            <div class="testimonial animate-on-scroll">
+                <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                <img src="C:\hotmart\superbot24h\mariana.jpg" alt="Foto de Mariana Santos" loading="lazy">
+                <p class="testimonial-text">"Eu era cética, mas o sistema de follow-up é inacreditável. Clientes que abandonavam o carrinho voltaram e finalizaram. Liberou meus atendentes para focarem nos clientes da loja física. Valeu cada centavo!"</p>
+                <p class="testimonial-author">Mariana Santos <span>Gerente, Mercearia da Esquina</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESTRUTURA DA OFERTA SIMPLIFICADA -->
+    <section id="offer" class="offer section">
+        <div class="container">
+            <div class="offer-box animate-on-scroll">
+                
+                <div class="offer-mockup">
+                    <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                    <img src="C:\hotmart\superbot24h\mockup.jpg" alt="Mockup do MercadoBot em ação" loading="lazy">
+                </div>
+
+                <h2>Adquira AGORA seu Acesso Vitalício ao MercadoBot 24h</h2>
+                <p>Receba o script completo e todos os arquivos para transformar seu supermercado/mercearia em uma potência de vendas online.</p>
+                <h3>🎁 E AINDA LEVE 3 BÔNUS EXCLUSIVOS:</h3>
+                <ul class="bonus-list">
+                    <li><i class="fas fa-check-circle"></i><div class="bonus-text"><strong>BÔNUS 1:</strong> Guia de Instalação Passo a Passo</div></li>
+                    <li><i class="fas fa-check-circle"></i><div class="bonus-text"><strong>BÔNUS 2:</strong> Suporte Premium de 30 dias</div></li>
+                    <li><i class="fas fa-check-circle"></i><div class="bonus-text"><strong>BÔNUS 3:</strong> Arquivo `contexto.txt` Matador Pré-configurado para Supermercados e Mercearias</div></li>
+                </ul>
+                <div class="price-box">
+                    <p class="old-price">De R$ 790,00</p>
+                    <p>Por apenas 11x de</p>
+                    <p class="new-price">R$ 8,87</p>
+                    <p><span>ou R$ 79,90 à vista</span></p>
+                </div>
+                <!-- Mantenha o link da Hotmart atualizado para o seu produto -->
+                <a href="https://pay.hotmart.com/SEU_CODIGO_HOTMART_AQUI" class="cta-button">SIM, QUERO VENDER NO AUTOMÁTICO MEU MERCADO!</a>
+                <p class="sub-cta">ÚLTIMAS UNIDADES COM PREÇO DE LANÇAMENTO!</p>
+            </div>
+            
+            <div class="guarantee animate-on-scroll">
+                <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                <img src="C:\hotmart\superbot24h\OIP.jpg" alt="Selo de Garantia de 7 Dias" loading="lazy">
+                <div class="guarantee-text">
+                    <h3>Sua Satisfação ou seu Dinheiro de Volta!</h3>
+                    <p>Você tem 7 dias de garantia incondicional. Se por qualquer motivo você não ficar satisfeito com o MercadoBot, basta nos enviar um e-mail e devolveremos 100% do seu investimento. O risco é todo nosso!</p>
+                </div>
+            </div>
+            <div class="reclame-aqui-proof animate-on-scroll">
+                <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                <img src="C:\hotmart\superbot24h\reclame-aqui.png" alt="Logo Reclame Aqui" style="width:120px;height:auto;">
+                <p>Nossa maior garantia é a sua confiança. Estamos orgulhosos de manter um histórico impecável, com <span>zero reclamações</span> no Reclame Aqui.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq section">
+        <div class="container animate-on-scroll">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-item">
+                <div class="faq-question">Preciso entender de programação para instalar?</div>
+                <div class="faq-answer">
+                    <p>Não! Nosso guia em vídeo (Bônus 1) mostra o passo a passo de forma simples e direta. Se você sabe seguir instruções, consegue instalar. E caso tenha qualquer dificuldade, nosso suporte premium (Bônus 2) está aqui para ajudar.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Quais são os custos para manter o bot funcionando?</div>
+                <div class="faq-answer">
+                    <p>Os custos são muito baixos. Você precisará de um servidor para hospedar o script (existem opções a partir de $5 dólares por mês) e uma chave da API da OpenAI, que tem um custo por uso, mas para o volume de um supermercado/mercearia, geralmente fica em poucos dólares por mês. É um investimento ínfimo perto do retorno em vendas e tempo economizado. Ou instalar na sua máquina sem custo algum.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Funciona com meu número de WhatsApp pessoal ou precisa ser Business?</div>
+                <div class="faq-answer">
+                    <p>O sistema funciona utilizando uma tecnologia que automatiza o WhatsApp Web. É altamente recomendável usar um número dedicado e, de preferência, uma conta do WhatsApp Business para passar mais profissionalismo e ter acesso a recursos adicionais da plataforma.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">O pagamento é uma mensalidade?</div>
+                <div class="faq-answer">
+                    <p>Não! O pagamento é único. Você compra o script e ele é seu para sempre (acesso vitalício), incluindo todas as funcionalidades descritas. Sem taxas escondidas ou mensalidades.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">O robô consegue entender variações de perguntas dos clientes?</div>
+                <div class="faq-answer">
+                    <p>Sim! Graças à integração com a tecnologia da OpenAI (a mesma do ChatGPT), o MercadoBot é treinado para entender o contexto e a intenção por trás das perguntas, mesmo que sejam feitas de formas diferentes. Por exemplo, ele pode entender "tem pão francês fresco hoje?", "qual o preço da carne moída?", ou "vocês fazem entrega no meu bairro?". Isso torna a conversa muito mais natural e eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="creator-section" class="section">
+        <div class="container animate-on-scroll">
+            <h2 class="section-title">Quem está por trás do MercadoBot?</h2>
+            <div class="creator-grid">
+                <div class="creator-text">
+                    <h3>Bruno Loureiro Desidera</h3>
+                    <p class="subtitle">Programador Full-Stack e Especialista em Automação</p>
+                    <p>Olá! Eu sou Bruno Loureiro Desidera, o desenvolvedor por trás do MercadoBot. Minha paixão é usar a tecnologia para resolver problemas reais e criar ferramentas que geram resultados concretos. Com anos de experiência no desenvolvimento de software, eu vi o imenso potencial da automação para transformar negócios.</p>
+                    <p>Fluente em diversas linguagens como JavaScript (Node.js), Python, e mais, a base do meu conhecimento foi solidificada em uma das melhores universidades do mundo, Harvard, através do seu renomado curso de Ciência da Computação, o CS50. Essa base me permite criar soluções robustas, eficientes e seguras.</p>
+                    <p>O MercadoBot não é apenas um código, é a materialização de centenas de horas de desenvolvimento, testes e otimizações, pensado especificamente para as dores do setor varejista de alimentos.</p>
+                </div>
+                <div class="creator-images">
+                    <!-- Atenção: Caminhos de imagem locais (C:\...) não funcionarão online. Mude para caminhos relativos ou URLs públicas. -->
+                    <div class="image-reveal-container">
+                        <img src="C:\hotmart\superbot24h\bruno.jpg" alt="Foto do criador do MercadoBot" class="creator-photo" loading="lazy">
+                    </div>
+                    <div class="image-reveal-container" style="margin-top: 1.5rem;">
+                        <img src="c:\hotmart\superbot24h\harvard.jpeg" alt="Certificado CS50 de Harvard" class="creator-certificate" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="animate-on-scroll">Não espere seus concorrentes automatizarem o atendimento e vendas antes de você!</h2>
+            <p class="animate-on-scroll">Clique no botão abaixo e garanta sua vaga para transformar o atendimento do seu supermercado/mercearia hoje mesmo.</p>
+            <!-- Mantenha o link da Hotmart atualizado para o seu produto -->
+            <a href="https://pay.hotmart.com/SEU_CODIGO_HOTMART_AQUI" class="cta-button animate-on-scroll">QUERO MEU MERCADO VENDENDO 24H!</a>
+            <p class="sub-cta animate-on-scroll">A oferta de lançamento está acabando...</p>
+        </div>
+    </section>
+    
+    <button id="back-to-top-btn" title="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+
+    <footer>
+        <div class="container"><p>&copy; 2024 MercadoBot 24h. Todos os direitos reservados. Este site não é afiliado ao Facebook, WhatsApp ou Telegram.</p></div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- SCRIPT DO RELÓGIO DE CONTAGEM REGRESSIVA ---
+            function startCountdown() {
+                const countdownElement = document.getElementById('timer');
+                if (!countdownElement) return;
+                const countdownTime = new Date().getTime() + (2 * 60 * 60 * 1000) + (59 * 60 * 1000) + (58 * 1000); // 2h 59min 58s de exemplo
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = countdownTime - now;
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        countdownElement.innerHTML = "OFERTA ENCERRADA";
+                        return;
+                    }
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    countdownElement.innerHTML = (hours < 10 ? '0' : '') + hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+                }, 1000);
+            }
+
+            // --- SCRIPT DO FAQ (ACCORDION) ---
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
+
+            // --- EFEITOS DE ANIMAÇÃO AO ROLAR E OUTROS ---
+            const backToTopBtn = document.getElementById('back-to-top-btn');
+
+            const observerOptions = { root: null, threshold: 0.1, rootMargin: "0px" };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('counter')) {
+                            animateCounter(entry.target);
+                        }
+                        if (entry.target.classList.contains('image-reveal-container')) {
+                             entry.target.classList.add('visible');
+                        }
+                        // Desobserva o elemento após a animação, exceto para contadores que podem ser reanimados
+                        if(!entry.target.classList.contains('counter')) {
+                           observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll, .counter, .image-reveal-container');
+            elementsToAnimate.forEach(el => observer.observe(el));
+            
+            window.onscroll = function() {
+                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                    backToTopBtn.style.display = "block";
+                } else {
+                    backToTopBtn.style.display = "none";
+                }
+            };
+
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            function animateCounter(counter) {
+                const target = +counter.getAttribute('data-target');
+                const suffix = counter.getAttribute('data-suffix') || '';
+                const duration = 2000;
+                let start = 0;
+                const increment = target / (duration / 16);
+
+                const updateCounter = () => {
+                    start += increment;
+                    if (start < target) {
+                        counter.textContent = Math.ceil(start) + suffix;
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + suffix;
+                    }
+                };
+                updateCounter();
+            }
+
+            startCountdown();
+        });
+    </script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+
+</body>
+</html>
